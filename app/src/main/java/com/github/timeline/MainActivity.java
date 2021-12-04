@@ -12,8 +12,8 @@ import android.widget.EditText;
 import com.github.timeline.Utils.Constants;
 import com.github.timeline.Utils.GLog;
 import com.github.timeline.serverCommunication.CustomOkHttpClient;
+import com.github.timeline.userInfo.UserProfileActivity;
 import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 

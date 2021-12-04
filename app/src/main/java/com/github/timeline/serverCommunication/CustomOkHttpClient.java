@@ -49,6 +49,17 @@ public class CustomOkHttpClient {
         return null;
     }
 
+    public static String loadUserRepos(Context context, String url) {
+        if (!isNetworkAvailable(context)) return null;
+        try {
+            return buildAndEnqueueSyncRequest(url).body().string();
+        } catch (NullPointerException | IOException e) {
+            GLog.e(TAG, "Error loading user repos!: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private static Response buildAndEnqueueSyncRequest(String url) {
         try {
             Request request = new Request.Builder()

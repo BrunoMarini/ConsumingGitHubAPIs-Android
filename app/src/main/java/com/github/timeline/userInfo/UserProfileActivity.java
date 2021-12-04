@@ -1,4 +1,4 @@
-package com.github.timeline;
+package com.github.timeline.userInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.timeline.R;
 import com.github.timeline.Utils.Constants;
 import com.github.timeline.Utils.GLog;
 import com.github.timeline.Utils.JsonParser.UserProfile;
@@ -85,6 +87,14 @@ public class UserProfileActivity extends AppCompatActivity {
     private void addSeePublicReposButton(String url) {
         Button button = new Button(mContext);
         button.setText("Check user repos");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, UserReposActivity.class);
+                intent.putExtra(Constants.PROFILE_REPOS_URL, url);
+                startActivity(intent);
+            }
+        });
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
