@@ -8,22 +8,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.timeline.Utils.Constants;
 import com.github.timeline.Utils.GLog;
-import com.github.timeline.Utils.JsonParser;
+import com.github.timeline.Utils.JsonParser.UserProfile;
 import com.github.timeline.serverCommunication.CustomOkHttpClient;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
-import java.io.IOException;
 import java.io.InputStream;
-
-import javax.microedition.khronos.opengles.GL;
 
 public class UserProfileActivity extends AppCompatActivity {
     private static final String TAG = UserProfileActivity.class.getSimpleName();
+
+    private static final String FORMAT_LOGIN = "( %s )";
+    private static final String FORMAT_NUM_REPOS = "Public repos: %s";
 
     private Context mContext;
 
@@ -45,8 +43,16 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void loadUserInfo(String userProfileJson) {
         GLog.d(TAG, "loadUserInfo()");
-        String avatarUrl = JsonParser.UserProfile.getAvatarUrl(userProfileJson);
-        loadAvatar(avatarUrl);
+        loadAvatar(UserProfile.getAvatarUrl(userProfileJson));
+
+        TextView tvName = findViewById(R.id.tv_name);
+        tvName.setText(UserProfile.getName(userProfileJson));
+
+        TextView tvLogin = findViewById(R.id.tv_login);
+        tvLogin.setText(String.format(FORMAT_LOGIN, UserProfile.getLogin(userProfileJson)));
+
+        TextView tvPublicRepo = findViewById(R.id.tv_public_repos);
+        tvPublicRepo.setText(String.format(FORMAT_NUM_REPOS, UserProfile.getPublicRepo(userProfileJson)));
     }
 
     private void loadAvatar(String url) {
