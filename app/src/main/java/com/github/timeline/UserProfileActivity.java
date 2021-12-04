@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.timeline.Utils.Constants;
@@ -43,16 +45,28 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void loadUserInfo(String userProfileJson) {
         GLog.d(TAG, "loadUserInfo()");
-        loadAvatar(UserProfile.getAvatarUrl(userProfileJson));
+
+        Bundle userInfoBundle = UserProfile.getAllInfo(userProfileJson);
+
+        loadAvatar(userInfoBundle.getString(Constants.PROFILE_AVATAR_URL));
 
         TextView tvName = findViewById(R.id.tv_name);
-        tvName.setText(UserProfile.getName(userProfileJson));
+        tvName.setText(userInfoBundle.getString(Constants.PROFILE_NAME));
 
         TextView tvLogin = findViewById(R.id.tv_login);
-        tvLogin.setText(String.format(FORMAT_LOGIN, UserProfile.getLogin(userProfileJson)));
+        tvLogin.setText(String.format(FORMAT_LOGIN, userInfoBundle.getString(Constants.PROFILE_LOGIN)));
 
         TextView tvPublicRepo = findViewById(R.id.tv_public_repos);
-        tvPublicRepo.setText(String.format(FORMAT_NUM_REPOS, UserProfile.getPublicRepo(userProfileJson)));
+        int publicRepos = Integer.parseInt(userInfoBundle.getString(Constants.PROFILE_PUBLIC_REPOS));
+        tvPublicRepo.setText(String.format(FORMAT_NUM_REPOS, String.valueOf(publicRepos)));
+
+        TextView tvBio = findViewById(R.id.tv_bio);
+        String bio = userInfoBundle.getString(Constants.PROFILE_BIO);
+        tvBio.setText(bio != null ? bio : "This profile does not have a bio");
+
+        if (publicRepos > 0) {
+            addSeePublicReposButton(userInfoBundle.getString(Constants.PROFILE_REPOS_URL));
+        }
     }
 
     private void loadAvatar(String url) {
@@ -66,5 +80,20 @@ public class UserProfileActivity extends AppCompatActivity {
             ImageView avatarImageView = findViewById(R.id.iv_user_avatar);
             runOnUiThread(() -> avatarImageView.setImageBitmap(bitmap));
         }).start();
+    }
+
+    private void addSeePublicReposButton(String url) {
+        Button button = new Button(mContext);
+        button.setText("Check user repos");
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        params.setMargins(10, 10, 10, 10);
+        button.setLayoutParams(params);
+
+        LinearLayout linearLayout = findViewById(R.id.ll_content);
+        linearLayout.addView(button);
     }
 }

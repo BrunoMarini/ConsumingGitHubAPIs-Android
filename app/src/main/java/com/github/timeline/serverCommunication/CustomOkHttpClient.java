@@ -42,7 +42,7 @@ public class CustomOkHttpClient {
         if (!isNetworkAvailable(context)) return null;
         try {
             return buildAndEnqueueSyncRequest(url).body().byteStream();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             GLog.e(TAG, "Error loading image!: " + e.getMessage());
             e.printStackTrace();
         }

@@ -15,6 +15,7 @@ public class Constants {
      */
     public static final String PROFILE_NAME = "name";
     public static final String PROFILE_LOGIN = "login";
+    public static final String PROFILE_BIO = "bio";
     public static final String PROFILE_PUBLIC_REPOS = "public_repos";
     public static final String PROFILE_REPOS_URL = "repos_url";
     public static final String PROFILE_AVATAR_URL = "avatar_url";
