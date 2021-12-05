@@ -13,10 +13,10 @@ import android.widget.LinearLayout;
 import com.github.timeline.R;
 import com.github.timeline.Utils.Constants;
 import com.github.timeline.Utils.GLog;
-import com.github.timeline.Utils.JsonParser.UserRepos;
+import com.github.timeline.serverCommunication.JsonParser;
 import com.github.timeline.serverCommunication.CustomOkHttpClient;
+import com.github.timeline.serverCommunication.responseJson.Repo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UserReposActivity extends AppCompatActivity {
@@ -43,9 +43,9 @@ public class UserReposActivity extends AppCompatActivity {
     private void loadUserRepos(String url) {
         new Thread(() -> {
             String repos = CustomOkHttpClient.loadUserRepos(mContext, url);
-            ArrayList<String> reposList = UserRepos.getAllRepoName(repos);
-            for (String current : reposList) {
-                populateActivity(current);
+            ArrayList<Repo> reposList = JsonParser.parseRepositories(repos);
+            for (Repo current : reposList) {
+                populateActivity(current.getName());
             }
         }).start();
     }

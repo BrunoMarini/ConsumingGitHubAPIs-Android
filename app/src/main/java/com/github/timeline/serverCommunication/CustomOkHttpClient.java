@@ -61,6 +61,7 @@ public class CustomOkHttpClient {
     }
 
     private static Response buildAndEnqueueSyncRequest(String url) {
+        GLog.d(TAG, "buildAndEnqueueSyncRequest(): " + url);
         try {
             Request request = new Request.Builder()
                     .url(url)

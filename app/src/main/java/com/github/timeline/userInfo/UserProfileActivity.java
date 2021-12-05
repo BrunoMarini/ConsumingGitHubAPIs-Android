@@ -16,8 +16,9 @@ import android.widget.TextView;
 import com.github.timeline.R;
 import com.github.timeline.Utils.Constants;
 import com.github.timeline.Utils.GLog;
-import com.github.timeline.Utils.JsonParser.UserProfile;
+import com.github.timeline.serverCommunication.JsonParser;
 import com.github.timeline.serverCommunication.CustomOkHttpClient;
+import com.github.timeline.serverCommunication.responseJson.Profile;
 
 import java.io.InputStream;
 
@@ -48,26 +49,24 @@ public class UserProfileActivity extends AppCompatActivity {
     private void loadUserInfo(String userProfileJson) {
         GLog.d(TAG, "loadUserInfo()");
 
-        Bundle userInfoBundle = UserProfile.getAllInfo(userProfileJson);
+        Profile profile = JsonParser.parseProfile(userProfileJson);
 
-        loadAvatar(userInfoBundle.getString(Constants.PROFILE_AVATAR_URL));
+        loadAvatar(profile.getAvatar_url());
 
         TextView tvName = findViewById(R.id.tv_name);
-        tvName.setText(userInfoBundle.getString(Constants.PROFILE_NAME));
+        tvName.setText(profile.getName());
 
         TextView tvLogin = findViewById(R.id.tv_login);
-        tvLogin.setText(String.format(FORMAT_LOGIN, userInfoBundle.getString(Constants.PROFILE_LOGIN)));
+        tvLogin.setText(String.format(FORMAT_LOGIN, profile.getLogin()));
 
         TextView tvPublicRepo = findViewById(R.id.tv_public_repos);
-        int publicRepos = Integer.parseInt(userInfoBundle.getString(Constants.PROFILE_PUBLIC_REPOS));
-        tvPublicRepo.setText(String.format(FORMAT_NUM_REPOS, String.valueOf(publicRepos)));
+        tvPublicRepo.setText(String.format(FORMAT_NUM_REPOS, profile.getPublic_repos()));
 
         TextView tvBio = findViewById(R.id.tv_bio);
-        String bio = userInfoBundle.getString(Constants.PROFILE_BIO);
-        tvBio.setText(bio != null ? bio : "This profile does not have a bio");
+        tvBio.setText(profile.getBio() != null ? profile.getBio() : "This profile does not have a bio");
 
-        if (publicRepos > 0) {
-            addSeePublicReposButton(userInfoBundle.getString(Constants.PROFILE_REPOS_URL));
+        if (profile.getPublic_repos() > 0) {
+            addSeePublicReposButton(profile.getRepos_url());
         }
     }
 
