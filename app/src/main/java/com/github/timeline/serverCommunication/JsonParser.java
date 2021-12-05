@@ -1,6 +1,5 @@
 package com.github.timeline.serverCommunication;
 
-import com.github.timeline.Utils.Constants;
 import com.github.timeline.Utils.GLog;
 import com.github.timeline.serverCommunication.responseJson.Profile;
 import com.github.timeline.serverCommunication.responseJson.Repo;
@@ -8,7 +7,6 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 

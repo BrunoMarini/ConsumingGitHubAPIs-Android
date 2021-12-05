@@ -23,6 +23,8 @@ import java.net.HttpURLConnection;
 public class MainActivity extends AppCompatActivity implements Callback {
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private static final String DEFAULT_GIT_PROFILE = "BrunoMarini";
+
     private Context mContext;
     private Callback mCallback;
 
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements Callback {
             public void onClick(View view) {
                 String profileName = etProfile.getText().toString();
                 if (profileName.isEmpty()) {
-                    profileName = "BrunoMarini";
+                    profileName = DEFAULT_GIT_PROFILE;
                 }
                 CustomOkHttpClient.searchForProfile(mContext, mCallback, profileName);
             }

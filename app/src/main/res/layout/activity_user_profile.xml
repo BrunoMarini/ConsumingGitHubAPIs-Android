@@ -23,7 +23,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_gravity="center"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:srcCompat="@tools:sample/avatars"
+                android:contentDescription="@string/iv_description" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -55,6 +56,13 @@
                 android:layout_gravity="center"
                 android:textSize="20sp"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btn_check_repos"
+                android:layout_margin="10dp"
+                android:text="@string/btn_check_user_repos"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

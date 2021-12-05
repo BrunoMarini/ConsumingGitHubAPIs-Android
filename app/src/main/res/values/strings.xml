@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">GitHub - Timeline</string>
+
+    <!--  UserProfile and UserRepo activity  -->
+    <string name="btn_check_user_repos">Check user repos</string>
+    <string name="alert_error_title">Error!</string>
+    <string name="alert_no_repositories_found">This user does not have public a repository</string>
+
+    <!--  MainActivity  -->
+    <string name="tv_search_title">Write the GitHub profile you want to search:</string>
+    <string name="hint_profile">BrunoMarini</string>
+    <string name="autoFillHint_profile">GitHub profile</string>
+    <string name="btn_search_profile">Search</string>
+
+    <!--  UserProfileActivity  -->
+    <string name="iv_description">User avatar</string>
+    <string name="tv_bio_empty">This profile does not have a bio</string>
 </resources>

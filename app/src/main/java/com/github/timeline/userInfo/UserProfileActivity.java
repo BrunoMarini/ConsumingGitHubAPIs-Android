@@ -7,10 +7,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.View;
+
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.timeline.R;
@@ -63,11 +62,15 @@ public class UserProfileActivity extends AppCompatActivity {
         tvPublicRepo.setText(String.format(FORMAT_NUM_REPOS, profile.getPublic_repos()));
 
         TextView tvBio = findViewById(R.id.tv_bio);
-        tvBio.setText(profile.getBio() != null ? profile.getBio() : "This profile does not have a bio");
+        tvBio.setText(profile.getBio() != null ?
+                        profile.getBio() : getString(R.string.tv_bio_empty));
 
-        if (profile.getPublic_repos() > 0) {
-            addSeePublicReposButton(profile.getRepos_url());
-        }
+        Button btnUserRepo = findViewById(R.id.btn_check_repos);
+        btnUserRepo.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, UserReposActivity.class);
+            intent.putExtra(Constants.PROFILE_REPO_URL, profile.getRepos_url());
+            startActivity(intent);
+        });
     }
 
     private void loadAvatar(String url) {
@@ -81,28 +84,5 @@ public class UserProfileActivity extends AppCompatActivity {
             ImageView avatarImageView = findViewById(R.id.iv_user_avatar);
             runOnUiThread(() -> avatarImageView.setImageBitmap(bitmap));
         }).start();
-    }
-
-    private void addSeePublicReposButton(String url) {
-        Button button = new Button(mContext);
-        button.setText("Check user repos");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, UserReposActivity.class);
-                intent.putExtra(Constants.PROFILE_REPOS_URL, url);
-                startActivity(intent);
-            }
-        });
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        params.setMargins(10, 10, 10, 10);
-        button.setLayoutParams(params);
-
-        LinearLayout linearLayout = findViewById(R.id.ll_content);
-        linearLayout.addView(button);
     }
 }

@@ -9,7 +9,6 @@ import com.github.timeline.Utils.Constants;
 import com.github.timeline.Utils.GLog;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -17,12 +16,8 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.microedition.khronos.opengles.GL;
-
 public class CustomOkHttpClient {
     private static final String TAG = CustomOkHttpClient.class.getSimpleName();
-
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static boolean searchForProfile(Context context, Callback callback, String profile) {
         if (!isNetworkAvailable(context)) return false;

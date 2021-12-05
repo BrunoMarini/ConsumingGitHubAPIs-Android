@@ -2,7 +2,9 @@ package com.github.timeline.userInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -18,6 +20,7 @@ import com.github.timeline.serverCommunication.CustomOkHttpClient;
 import com.github.timeline.serverCommunication.responseJson.Repo;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 public class UserReposActivity extends AppCompatActivity {
     private static final String TAG = UserReposActivity.class.getSimpleName();
@@ -32,12 +35,14 @@ public class UserReposActivity extends AppCompatActivity {
         mContext = getApplicationContext();
 
         Intent intent = getIntent();
-        if (!intent.hasExtra(Constants.PROFILE_REPOS_URL)) {
+        if (!intent.hasExtra(Constants.PROFILE_REPO_URL)) {
             GLog.e(TAG, "User repos URL not found!");
-            finish();
+            showAlertMessage(getString(R.string.alert_error_title),
+                                getString(R.string.alert_no_repositories_found),
+                                    () -> { finish(); return null; });
         }
 
-        loadUserRepos(intent.getStringExtra(Constants.PROFILE_REPOS_URL));
+        loadUserRepos(intent.getStringExtra(Constants.PROFILE_REPO_URL));
     }
 
     private void loadUserRepos(String url) {
@@ -69,5 +74,21 @@ public class UserReposActivity extends AppCompatActivity {
             ll.addView(button);
         });
     }
+    private void showAlertMessage(String title, String message, Callable<Void> method) {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle(title);
+        dialog.setMessage(message);
+        dialog.setPositiveButton("OK", (dialog1, which) -> {
+            if (method != null) {
+                try {
+                    method.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
+        AlertDialog alertDialog = dialog.create();
+        runOnUiThread(alertDialog::show);
+    }
 }
